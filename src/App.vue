@@ -18,7 +18,7 @@ function toggleLanguage() {
 
 // Wizard State
 const currentStep = ref(1)
-const totalSteps = 5
+const totalSteps = 6
 
 // Step 1: Game Type
 const gameType = ref('')
@@ -135,7 +135,27 @@ const noteTexts = ref({
   warning: ''
 })
 
-// Step 5: Preview
+// Step 5: Author Info
+const authorName = ref('')
+const authorGithub = ref('')
+const donationUrl = ref('')
+const license = ref('MIT')
+const licenses = [
+  { value: 'MIT', name: 'MIT License' },
+  { value: 'GPL-3.0', name: 'GNU GPL v3' },
+  { value: 'Apache-2.0', name: 'Apache License 2.0' },
+  { value: 'BSD-3-Clause', name: 'BSD 3-Clause' },
+  { value: 'BSD-2-Clause', name: 'BSD 2-Clause' },
+  { value: 'LGPL-3.0', name: 'GNU LGPL v3' },
+  { value: 'MPL-2.0', name: 'Mozilla Public License 2.0' },
+  { value: 'ISC', name: 'ISC License' },
+  { value: 'Unlicense', name: 'The Unlicense' },
+  { value: 'CC0-1.0', name: 'CC0 1.0 Universal' },
+  { value: 'custom', name: 'Custom / Other' }
+]
+const customLicense = ref('')
+
+// Step 6: Preview
 const isMarkdownView = ref(true)
 const toasts = ref([])
 
@@ -361,6 +381,29 @@ const generatedMarkdown = computed(() => {
     validLinks.forEach(link => {
       md += `- [${link.text}](${link.url})\n`
     })
+    md += `\n`
+  }
+
+  // Author Section
+  if (authorName.value || authorGithub.value || donationUrl.value || license.value) {
+    md += `## Author\n\n`
+    if (authorName.value) {
+      if (authorGithub.value) {
+        md += `**Author:** [${authorName.value}](${authorGithub.value})\n\n`
+      } else {
+        md += `**Author:** ${authorName.value}\n\n`
+      }
+    }
+    if (donationUrl.value) {
+      md += `[![Donate](https://img.shields.io/badge/Donate-Support-green)](${donationUrl.value})\n\n`
+    }
+  }
+
+  // License
+  const licenseValue = license.value === 'custom' ? customLicense.value : license.value
+  if (licenseValue) {
+    md += `## License\n\n`
+    md += `This project is licensed under the **${licenseValue}** license.\n`
   }
 
   return md
@@ -451,6 +494,23 @@ const generatedText = computed(() => {
     validLinks.forEach(link => {
       txt += `${link.text}: ${link.url}\n`
     })
+    txt += `\n`
+  }
+
+  // Author Section
+  if (authorName.value || authorGithub.value || donationUrl.value) {
+    txt += `Author\n------\n`
+    if (authorName.value) txt += `Author: ${authorName.value}\n`
+    if (authorGithub.value) txt += `GitHub: ${authorGithub.value}\n`
+    if (donationUrl.value) txt += `Donate: ${donationUrl.value}\n`
+    txt += `\n`
+  }
+
+  // License
+  const licenseValue = license.value === 'custom' ? customLicense.value : license.value
+  if (licenseValue) {
+    txt += `License\n-------\n`
+    txt += `This project is licensed under the ${licenseValue} license.\n`
   }
 
   return txt
@@ -834,8 +894,50 @@ function showToast(message, type = 'success') {
         </div>
       </section>
 
-      <!-- Step 5: Preview & Download -->
-      <section v-if="currentStep === 5" class="wizard-step preview-step">
+      <!-- Step 5: Author Info -->
+      <section v-if="currentStep === 5" class="wizard-step">
+        <h2>{{ t.authorInfo }}</h2>
+        
+        <div class="form-section">
+          <h3>{{ t.authorDetails }}</h3>
+          
+          <div class="form-group">
+            <label>{{ t.authorName }}</label>
+            <input type="text" v-model="authorName" :placeholder="t.authorNamePlaceholder">
+          </div>
+          
+          <div class="form-group">
+            <label>{{ t.authorGithub }}</label>
+            <input type="url" v-model="authorGithub" :placeholder="t.authorGithubPlaceholder">
+          </div>
+          
+          <div class="form-group">
+            <label>{{ t.donationUrl }}</label>
+            <input type="url" v-model="donationUrl" :placeholder="t.donationUrlPlaceholder">
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3>{{ t.licenseInfo }}</h3>
+          
+          <div class="form-group">
+            <label>{{ t.license }}</label>
+            <select v-model="license">
+              <option v-for="lic in licenses" :key="lic.value" :value="lic.value">
+                {{ lic.name }}
+              </option>
+            </select>
+          </div>
+          
+          <div v-if="license === 'custom'" class="form-group">
+            <label>{{ t.customLicense }}</label>
+            <input type="text" v-model="customLicense" :placeholder="t.customLicensePlaceholder">
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 6: Preview & Download -->
+      <section v-if="currentStep === 6" class="wizard-step preview-step">
         <h2>{{ t.previewDownload }}</h2>
         
         <div class="preview-section">

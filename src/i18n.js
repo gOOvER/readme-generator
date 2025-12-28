@@ -126,7 +126,21 @@ export const translations = {
     linkUrlPlaceholder: 'URL',
     addLink: '+ Add Link',
     
-    // Step 5: Preview & Download
+    // Step 5: Author Info
+    authorInfo: '👤 Author Information',
+    authorDetails: '👤 Author Details',
+    authorName: 'Author Name',
+    authorNamePlaceholder: 'e.g. John Doe',
+    authorGithub: 'GitHub Profile URL',
+    authorGithubPlaceholder: 'https://github.com/username',
+    donationUrl: 'Donation URL (optional)',
+    donationUrlPlaceholder: 'https://ko-fi.com/username',
+    licenseInfo: '📜 License',
+    license: 'License',
+    customLicense: 'Custom License Name',
+    customLicensePlaceholder: 'e.g. Proprietary License',
+    
+    // Step 6: Preview & Download
     previewDownload: '📄 Preview & Download',
     preview: 'Preview',
     showRendered: 'Show rendered',
@@ -283,7 +297,21 @@ export const translations = {
     linkUrlPlaceholder: 'URL',
     addLink: '+ Link hinzufügen',
     
-    // Step 5: Preview & Download
+    // Step 5: Author Info
+    authorInfo: '👤 Autor-Informationen',
+    authorDetails: '👤 Autor-Details',
+    authorName: 'Autor Name',
+    authorNamePlaceholder: 'z.B. Max Mustermann',
+    authorGithub: 'GitHub Profil URL',
+    authorGithubPlaceholder: 'https://github.com/username',
+    donationUrl: 'Spenden URL (optional)',
+    donationUrlPlaceholder: 'https://ko-fi.com/username',
+    licenseInfo: '📜 Lizenz',
+    license: 'Lizenz',
+    customLicense: 'Eigener Lizenzname',
+    customLicensePlaceholder: 'z.B. Proprietary License',
+    
+    // Step 6: Preview & Download
     previewDownload: '📄 Vorschau & Download',
     preview: 'Vorschau',
     showRendered: 'Gerendert anzeigen',
