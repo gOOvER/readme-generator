@@ -607,9 +607,9 @@ function showToast(message, type = 'success') {
               </g>
             </svg>
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="flag-icon">
-              <rect width="5" height="3" fill="#000"/>
+              <rect width="5" height="3" fill="#FFCE00"/>
               <rect width="5" height="2" fill="#D00"/>
-              <rect width="5" height="1" fill="#FFCE00"/>
+              <rect width="5" height="1" fill="#000"/>
             </svg>
             <span class="lang-code">{{ currentLang.toUpperCase() }}</span>
           </span>
