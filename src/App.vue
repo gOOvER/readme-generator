@@ -684,15 +684,17 @@ function showToast(message, type = 'success') {
       {{ t.step }} {{ currentStep }} {{ t.of }} {{ totalSteps }}
     </div>
 
-    <main class="wizard-main">
-      <!-- Step 1: Game Type Selection -->
-      <section v-if="currentStep === 1" class="wizard-step">
-        <h2>{{ t.selectGameType }}</h2>
-        <p class="step-description">{{ t.selectGameTypeDesc }}</p>
-        
-        <div class="game-type-grid">
-          <div 
-            v-for="type in gameTypes" 
+    <div class="wizard-layout">
+      <!-- Left: Form Steps -->
+      <main class="wizard-main">
+        <!-- Step 1: Game Type Selection -->
+        <section v-if="currentStep === 1" class="wizard-step">
+          <h2>{{ t.selectGameType }}</h2>
+          <p class="step-description">{{ t.selectGameTypeDesc }}</p>
+          
+          <div class="game-type-grid">
+            <div 
+              v-for="type in gameTypes" 
             :key="type"
             :class="['game-type-card', { selected: gameType === type }]"
             @click="selectGameType(type)"
@@ -1013,7 +1015,35 @@ function showToast(message, type = 'success') {
           {{ t.finish }}
         </button>
       </div>
-    </main>
+      </main>
+
+      <!-- Right: Live Preview Panel -->
+      <aside class="preview-panel">
+        <div class="preview-header">
+          <h3>{{ t.livePreview }}</h3>
+          <div class="preview-actions">
+            <button class="btn-icon" @click="togglePreview" :title="isMarkdownView ? t.showRendered : t.showMarkdown">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+            <button class="btn-icon" @click="copyToClipboard" :title="t.copy">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="14" height="14" x="8" y="8" rx="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="preview-content">
+          <div v-if="isMarkdownView" class="markdown-preview">
+            <pre><code>{{ generatedMarkdown }}</code></pre>
+          </div>
+          <div v-else class="rendered-preview" v-html="renderedHtml"></div>
+        </div>
+      </aside>
+    </div>
 
     <footer>
       <p>{{ t.createdFor }} <a href="https://github.com/pelican-eggs" target="_blank">Pelican Eggs</a> {{ t.community }}</p>

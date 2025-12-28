@@ -147,6 +147,7 @@ export const translations = {
     // Step 6: Preview & Download
     previewDownload: '📄 Preview & Download',
     preview: 'Preview',
+    livePreview: '📄 Live Preview',
     showRendered: 'Show rendered',
     showMarkdown: 'Show markdown',
     
@@ -322,6 +323,7 @@ export const translations = {
     // Step 6: Preview & Download
     previewDownload: '📄 Vorschau & Download',
     preview: 'Vorschau',
+    livePreview: '📄 Live-Vorschau',
     showRendered: 'Gerendert anzeigen',
     showMarkdown: 'Markdown anzeigen',
     
