@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { marked } from 'marked'
 import { translations } from './i18n.js'
 
@@ -34,6 +34,61 @@ const steamAppId = ref('')
 const steamStoreUrl = ref('')
 const steamDbUrl = ref('')
 const anonymousLogin = ref(true)
+const steamLoading = ref(false)
+const steamError = ref('')
+
+// Steam API Auto-Fetch
+async function fetchSteamData(appId) {
+  if (!appId || appId.length < 1) return
+  
+  steamLoading.value = true
+  steamError.value = ''
+  
+  try {
+    const response = await fetch(`/api/steam?appid=${appId}`)
+    const data = await response.json()
+    
+    if (data.error) {
+      steamError.value = data.error
+      return
+    }
+    
+    // Auto-fill fields
+    if (data.name && !eggName.value) {
+      eggName.value = data.name
+    }
+    if (data.description && !eggDescription.value) {
+      eggDescription.value = data.description
+    }
+    if (data.storeUrl) {
+      steamStoreUrl.value = data.storeUrl
+    }
+    if (data.steamDbUrl) {
+      steamDbUrl.value = data.steamDbUrl
+    }
+    if (data.website && !eggUrl.value) {
+      eggUrl.value = data.website
+    }
+    
+    showToast(t.value.steamDataLoaded || 'Steam data loaded!', 'success')
+    
+  } catch (err) {
+    steamError.value = 'Failed to fetch Steam data'
+  } finally {
+    steamLoading.value = false
+  }
+}
+
+// Watch Steam App ID for auto-fetch (debounced)
+let steamDebounceTimer = null
+watch(steamAppId, (newVal) => {
+  if (steamDebounceTimer) clearTimeout(steamDebounceTimer)
+  if (newVal && newVal.length >= 2) {
+    steamDebounceTimer = setTimeout(() => {
+      fetchSteamData(newVal)
+    }, 800) // 800ms debounce
+  }
+})
 
 // Minecraft specific
 const minecraftType = ref('paper')
@@ -614,7 +669,14 @@ function showToast(message, type = 'success') {
           
           <div class="form-group">
             <label>{{ t.steamAppId }}</label>
-            <input type="text" v-model="steamAppId" :placeholder="t.steamAppIdPlaceholder">
+            <div class="input-with-status">
+              <input type="text" v-model="steamAppId" :placeholder="t.steamAppIdPlaceholder" :class="{ loading: steamLoading }">
+              <span v-if="steamLoading" class="input-status loading">⏳</span>
+              <span v-else-if="steamError" class="input-status error" :title="steamError">❌</span>
+              <span v-else-if="steamStoreUrl && steamAppId" class="input-status success">✅</span>
+            </div>
+            <small v-if="steamLoading" class="status-text">{{ t.steamLoading }}</small>
+            <small v-else-if="steamError" class="status-text error">{{ steamError }}</small>
           </div>
           
           <div class="form-row">

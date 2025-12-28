@@ -55,14 +55,17 @@ export const translations = {
     
     // Steam specific
     steamInfo: '🎮 Steam Information',
-    steamAppId: 'Steam App ID *',
-    steamAppIdPlaceholder: 'e.g. 730',
+    steamAppId: 'Steam App ID',
+    steamAppIdPlaceholder: 'e.g. 730 (auto-fetches data)',
     steamStoreUrl: 'Steam Store URL',
     steamStoreUrlPlaceholder: 'https://store.steampowered.com/app/...',
     steamDbUrl: 'SteamDB URL',
     steamDbUrlPlaceholder: 'https://steamdb.info/app/...',
     anonymousLogin: 'Anonymous Steam Login possible',
     steamLoginRequired: 'Steam Account required for download',
+    steamDataLoaded: 'Steam data loaded automatically!',
+    steamLoading: 'Loading Steam data...',
+    steamFetchButton: '🔄 Fetch',
     
     // Minecraft specific
     minecraftInfo: '⛏️ Minecraft Information',
@@ -230,14 +233,17 @@ export const translations = {
     
     // Steam specific
     steamInfo: '🎮 Steam Informationen',
-    steamAppId: 'Steam App ID *',
-    steamAppIdPlaceholder: 'z.B. 730',
+    steamAppId: 'Steam App ID',
+    steamAppIdPlaceholder: 'z.B. 730 (lädt Daten automatisch)',
     steamStoreUrl: 'Steam Store URL',
     steamStoreUrlPlaceholder: 'https://store.steampowered.com/app/...',
     steamDbUrl: 'SteamDB URL',
     steamDbUrlPlaceholder: 'https://steamdb.info/app/...',
     anonymousLogin: 'Anonymer Steam-Login möglich',
     steamLoginRequired: 'Steam-Account für Download erforderlich',
+    steamDataLoaded: 'Steam-Daten automatisch geladen!',
+    steamLoading: 'Lade Steam-Daten...',
+    steamFetchButton: '🔄 Laden',
     
     // Minecraft specific
     minecraftInfo: '⛏️ Minecraft Informationen',

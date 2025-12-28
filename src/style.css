@@ -500,6 +500,55 @@ textarea {
   flex: 1;
 }
 
+/* Input with Status */
+.input-with-status {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-status input {
+  padding-right: 2.5rem;
+}
+
+.input-with-status input.loading {
+  border-color: var(--primary-color);
+}
+
+.input-status {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 1rem;
+}
+
+.input-status.loading {
+  animation: pulse 1s infinite;
+}
+
+.input-status.success {
+  color: var(--success-color);
+}
+
+.input-status.error {
+  color: var(--error-color);
+}
+
+.status-text {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+}
+
+.status-text.error {
+  color: var(--error-color);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* Note Types */
 .note-types {
   display: flex;
