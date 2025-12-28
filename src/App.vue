@@ -1070,6 +1070,16 @@ function showToast(message, type = 'success') {
         </div>
         
         <div class="form-section">
+          <h3>{{ t.coAuthorsSection }}</h3>
+          <p class="form-hint">{{ t.coAuthorsHint }}</p>
+          
+          <div class="form-group">
+            <label>{{ t.coAuthors }}</label>
+            <textarea v-model="coAuthors" rows="3" :placeholder="t.coAuthorsPlaceholder"></textarea>
+          </div>
+        </div>
+        
+        <div class="form-section">
           <h3>{{ t.licenseInfo }}</h3>
           
           <div class="form-group">
@@ -1084,16 +1094,6 @@ function showToast(message, type = 'success') {
           <div v-if="license === 'custom'" class="form-group">
             <label>{{ t.customLicense }}</label>
             <input type="text" v-model="customLicense" :placeholder="t.customLicensePlaceholder">
-          </div>
-        </div>
-        
-        <div class="form-section">
-          <h3>{{ t.coAuthorsSection }}</h3>
-          <p class="form-hint">{{ t.coAuthorsHint }}</p>
-          
-          <div class="form-group">
-            <label>{{ t.coAuthors }}</label>
-            <textarea v-model="coAuthors" rows="3" :placeholder="t.coAuthorsPlaceholder"></textarea>
           </div>
         </div>
       </section>
