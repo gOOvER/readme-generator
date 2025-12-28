@@ -413,13 +413,24 @@ const generatedText = computed(() => {
 const renderedHtml = computed(() => {
   let html = marked(generatedMarkdown.value)
   
-  html = html.replace(/<blockquote>\s*<p>\[!IMPORTANT\]<br>([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+  // GitHub-style alerts - handle different marked output formats
+  html = html.replace(/<blockquote>\s*<p>\[!IMPORTANT\]\s*<br\s*\/?>\s*([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
     '<blockquote class="important"><p><strong>⚠️ Important</strong><br>$1</p></blockquote>')
-  html = html.replace(/<blockquote>\s*<p>\[!NOTE\]<br>([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+  html = html.replace(/<blockquote>\s*<p>\[!NOTE\]\s*<br\s*\/?>\s*([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
     '<blockquote class="note"><p><strong>📝 Note</strong><br>$1</p></blockquote>')
-  html = html.replace(/<blockquote>\s*<p>\[!TIP\]<br>([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+  html = html.replace(/<blockquote>\s*<p>\[!TIP\]\s*<br\s*\/?>\s*([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
     '<blockquote class="tip"><p><strong>💡 Tip</strong><br>$1</p></blockquote>')
-  html = html.replace(/<blockquote>\s*<p>\[!WARNING\]<br>([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+  html = html.replace(/<blockquote>\s*<p>\[!WARNING\]\s*<br\s*\/?>\s*([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+    '<blockquote class="warning"><p><strong>🚨 Warning</strong><br>$1</p></blockquote>')
+  
+  // Also handle when marked renders with newlines instead of <br>
+  html = html.replace(/<blockquote>\s*<p>\[!IMPORTANT\]\n([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+    '<blockquote class="important"><p><strong>⚠️ Important</strong><br>$1</p></blockquote>')
+  html = html.replace(/<blockquote>\s*<p>\[!NOTE\]\n([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+    '<blockquote class="note"><p><strong>📝 Note</strong><br>$1</p></blockquote>')
+  html = html.replace(/<blockquote>\s*<p>\[!TIP\]\n([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
+    '<blockquote class="tip"><p><strong>💡 Tip</strong><br>$1</p></blockquote>')
+  html = html.replace(/<blockquote>\s*<p>\[!WARNING\]\n([\s\S]*?)<\/p>\s*<\/blockquote>/gi, 
     '<blockquote class="warning"><p><strong>🚨 Warning</strong><br>$1</p></blockquote>')
   
   return html
