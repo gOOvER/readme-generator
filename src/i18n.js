@@ -32,11 +32,6 @@ export const translations = {
         desc: 'Minecraft, Forge, Fabric, Paper, etc.',
         icon: '⛏️'
       },
-      sourceEngine: {
-        name: 'Source Engine',
-        desc: 'CS:GO, TF2, Garry\'s Mod, etc.',
-        icon: '🔫'
-      },
       other: {
         name: 'Other / Custom',
         desc: 'Other applications or custom servers',
@@ -84,20 +79,6 @@ export const translations = {
     javaVersionPlaceholder: 'e.g. Java 17',
     minecraftVersion: 'Supported Minecraft Versions',
     minecraftVersionPlaceholder: 'e.g. 1.20.x, 1.19.x',
-    
-    // Source Engine specific
-    sourceInfo: '🔫 Source Engine Information',
-    sourceGame: 'Game',
-    sourceGames: {
-      csgo: 'Counter-Strike 2 / CS:GO',
-      css: 'Counter-Strike: Source',
-      tf2: 'Team Fortress 2',
-      gmod: 'Garry\'s Mod',
-      l4d2: 'Left 4 Dead 2',
-      other: 'Other Source Game'
-    },
-    tickrate: 'Tickrate',
-    tickratePlaceholder: 'e.g. 64 or 128',
     
     // Step 3: Server Configuration
     serverConfig: '⚙️ Server Configuration',
@@ -210,11 +191,6 @@ export const translations = {
         desc: 'Minecraft, Forge, Fabric, Paper, etc.',
         icon: '⛏️'
       },
-      sourceEngine: {
-        name: 'Source Engine',
-        desc: 'CS:GO, TF2, Garry\'s Mod, etc.',
-        icon: '🔫'
-      },
       other: {
         name: 'Andere / Custom',
         desc: 'Andere Anwendungen oder benutzerdefinierte Server',
@@ -262,20 +238,6 @@ export const translations = {
     javaVersionPlaceholder: 'z.B. Java 17',
     minecraftVersion: 'Unterstützte Minecraft-Versionen',
     minecraftVersionPlaceholder: 'z.B. 1.20.x, 1.19.x',
-    
-    // Source Engine specific
-    sourceInfo: '🔫 Source Engine Informationen',
-    sourceGame: 'Spiel',
-    sourceGames: {
-      csgo: 'Counter-Strike 2 / CS:GO',
-      css: 'Counter-Strike: Source',
-      tf2: 'Team Fortress 2',
-      gmod: 'Garry\'s Mod',
-      l4d2: 'Left 4 Dead 2',
-      other: 'Anderes Source-Spiel'
-    },
-    tickrate: 'Tickrate',
-    tickratePlaceholder: 'z.B. 64 oder 128',
     
     // Step 3: Server Configuration
     serverConfig: '⚙️ Server-Konfiguration',

@@ -22,7 +22,7 @@ const totalSteps = 5
 
 // Step 1: Game Type
 const gameType = ref('')
-const gameTypes = ['steam', 'standalone', 'minecraft', 'sourceEngine', 'other']
+const gameTypes = ['steam', 'standalone', 'minecraft', 'other']
 
 // Step 2: Basic Info
 const eggName = ref('')
@@ -94,10 +94,6 @@ watch(steamAppId, (newVal) => {
 const minecraftType = ref('paper')
 const javaVersion = ref('')
 const minecraftVersion = ref('')
-
-// Source Engine specific
-const sourceGame = ref('csgo')
-const tickrate = ref('')
 
 // Step 3: Server Configuration
 const portsDescription = ref('')
@@ -190,7 +186,6 @@ function selectGameType(type) {
       portIdCounter = 3
       break
     case 'steam':
-    case 'sourceEngine':
       ports.value = [
         { id: 1, name: 'Game', value: '27015' },
         { id: 2, name: 'Query', value: '27015' },
@@ -254,7 +249,7 @@ const generatedMarkdown = computed(() => {
   md += `${eggDescription.value || 'Description of the egg...'}\n\n`
 
   // Steam Badges
-  if (gameType.value === 'steam' || gameType.value === 'sourceEngine') {
+  if (gameType.value === 'steam') {
     if (steamStoreUrl.value || steamDbUrl.value || steamAppId.value) {
       if (steamStoreUrl.value) {
         md += `[![Steam](https://img.shields.io/badge/Steam-Store-blue?logo=steam)](${steamStoreUrl.value}) `
@@ -290,14 +285,6 @@ const generatedMarkdown = computed(() => {
       md += `- **Supported Versions:** ${minecraftVersion.value}\n`
     }
     md += `\n`
-  }
-
-  // Source Engine specific info
-  if (gameType.value === 'sourceEngine') {
-    if (tickrate.value) {
-      md += `## Server Configuration\n\n`
-      md += `- **Tickrate:** ${tickrate.value}\n\n`
-    }
   }
 
   // Recommended Settings
@@ -380,7 +367,7 @@ const generatedText = computed(() => {
   txt += `${eggDescription.value || 'Description of the egg...'}\n\n`
 
   // Steam info
-  if ((gameType.value === 'steam' || gameType.value === 'sourceEngine') && steamAppId.value) {
+  if (gameType.value === 'steam' && steamAppId.value) {
     txt += `Steam\n-----\n`
     txt += `App ID: ${steamAppId.value}\n`
     txt += `Anonymous Login: ${anonymousLogin.value ? 'Yes' : 'No'}\n`
@@ -396,12 +383,6 @@ const generatedText = computed(() => {
     if (javaVersion.value) txt += `Java Version: ${javaVersion.value}\n`
     if (minecraftVersion.value) txt += `Supported Versions: ${minecraftVersion.value}\n`
     txt += `\n`
-  }
-
-  // Source info
-  if (gameType.value === 'sourceEngine' && tickrate.value) {
-    txt += `Server Configuration\n--------------------\n`
-    txt += `Tickrate: ${tickrate.value}\n\n`
   }
 
   // Requirements
@@ -562,8 +543,6 @@ function startOver() {
   minecraftType.value = 'paper'
   javaVersion.value = ''
   minecraftVersion.value = ''
-  sourceGame.value = 'csgo'
-  tickrate.value = ''
   portsDescription.value = ''
   portWarning.value = ''
   ports.value = [{ id: 1, name: 'Game', value: '27015' }]
@@ -670,7 +649,7 @@ function showToast(message, type = 'success') {
         <h2>{{ t.basicInfo }}</h2>
         
         <!-- Steam App ID first for auto-fetch -->
-        <div v-if="gameType === 'steam' || gameType === 'sourceEngine'" class="form-section steam-id-section">
+        <div v-if="gameType === 'steam'" class="form-section steam-id-section">
           <h3>{{ t.steamInfo }}</h3>
           
           <div class="form-group">
@@ -704,7 +683,7 @@ function showToast(message, type = 'success') {
         </div>
 
         <!-- Steam additional fields -->
-        <div v-if="gameType === 'steam' || gameType === 'sourceEngine'" class="form-section">
+        <div v-if="gameType === 'steam'" class="form-section">
           <h3>🔗 Steam URLs</h3>
           
           <div class="form-row">
@@ -748,26 +727,6 @@ function showToast(message, type = 'success') {
             <div class="form-group">
               <label>{{ t.minecraftVersion }}</label>
               <input type="text" v-model="minecraftVersion" :placeholder="t.minecraftVersionPlaceholder">
-            </div>
-          </div>
-        </div>
-
-        <!-- Source Engine specific fields -->
-        <div v-if="gameType === 'sourceEngine'" class="form-section">
-          <h3>{{ t.sourceInfo }}</h3>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label>{{ t.sourceGame }}</label>
-              <select v-model="sourceGame">
-                <option v-for="(label, key) in t.sourceGames" :key="key" :value="key">
-                  {{ label }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>{{ t.tickrate }}</label>
-              <input type="text" v-model="tickrate" :placeholder="t.tickratePlaceholder">
             </div>
           </div>
         </div>
