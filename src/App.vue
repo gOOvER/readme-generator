@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { marked } from 'marked'
 import { translations } from './i18n.js'
 
@@ -14,6 +14,7 @@ const t = computed(() => translations[currentLang.value])
 
 function toggleLanguage() {
   currentLang.value = currentLang.value === 'en' ? 'de' : 'en'
+  saveSession()
 }
 
 // Wizard State
@@ -166,6 +167,116 @@ let portIdCounter = 2
 let linkIdCounter = 2
 let sectionIdCounter = 1
 
+// Session Storage Key
+const SESSION_KEY = 'readme-generator-session'
+
+// Save session to localStorage
+function saveSession() {
+  const sessionData = {
+    currentStep: currentStep.value,
+    currentLang: currentLang.value,
+    gameType: gameType.value,
+    eggName: eggName.value,
+    eggUrl: eggUrl.value,
+    eggDescription: eggDescription.value,
+    steamAppId: steamAppId.value,
+    steamStoreUrl: steamStoreUrl.value,
+    steamDbUrl: steamDbUrl.value,
+    anonymousLogin: anonymousLogin.value,
+    minecraftType: minecraftType.value,
+    javaVersion: javaVersion.value,
+    minecraftVersion: minecraftVersion.value,
+    ports: ports.value,
+    minRam: minRam.value,
+    minCpu: minCpu.value,
+    minDisk: minDisk.value,
+    recommendedSettings: recommendedSettings.value,
+    customSections: customSections.value,
+    links: links.value,
+    enabledNotes: enabledNotes.value,
+    noteTexts: noteTexts.value,
+    authorName: authorName.value,
+    authorGithub: authorGithub.value,
+    donationUrl: donationUrl.value,
+    license: license.value,
+    customLicense: customLicense.value,
+    coAuthors: coAuthors.value,
+    isMarkdownView: isMarkdownView.value,
+    portIdCounter,
+    linkIdCounter,
+    sectionIdCounter
+  }
+  localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData))
+}
+
+// Load session from localStorage
+function loadSession() {
+  const saved = localStorage.getItem(SESSION_KEY)
+  if (!saved) return
+  
+  try {
+    const data = JSON.parse(saved)
+    
+    currentStep.value = data.currentStep || 1
+    currentLang.value = data.currentLang || getBrowserLanguage()
+    gameType.value = data.gameType || ''
+    eggName.value = data.eggName || ''
+    eggUrl.value = data.eggUrl || ''
+    eggDescription.value = data.eggDescription || ''
+    steamAppId.value = data.steamAppId || ''
+    steamStoreUrl.value = data.steamStoreUrl || ''
+    steamDbUrl.value = data.steamDbUrl || ''
+    anonymousLogin.value = data.anonymousLogin ?? true
+    minecraftType.value = data.minecraftType || 'java'
+    javaVersion.value = data.javaVersion || '21'
+    minecraftVersion.value = data.minecraftVersion || ''
+    ports.value = data.ports || [{ id: 1, name: 'Game', value: '27015' }]
+    minRam.value = data.minRam || ''
+    minCpu.value = data.minCpu || ''
+    minDisk.value = data.minDisk || ''
+    recommendedSettings.value = data.recommendedSettings || []
+    customSections.value = data.customSections || []
+    links.value = data.links || [{ id: 1, name: '', url: '' }]
+    enabledNotes.value = data.enabledNotes || {}
+    noteTexts.value = data.noteTexts || {}
+    authorName.value = data.authorName || ''
+    authorGithub.value = data.authorGithub || ''
+    donationUrl.value = data.donationUrl || ''
+    license.value = data.license || 'MIT'
+    customLicense.value = data.customLicense || ''
+    coAuthors.value = data.coAuthors || ''
+    isMarkdownView.value = data.isMarkdownView ?? true
+    
+    // Restore counters
+    portIdCounter = data.portIdCounter || 2
+    linkIdCounter = data.linkIdCounter || 2
+    sectionIdCounter = data.sectionIdCounter || 1
+  } catch (e) {
+    console.error('Failed to load session:', e)
+  }
+}
+
+// Clear session after download
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY)
+}
+
+// Auto-save on changes - using watchers
+watch([
+  gameType, eggName, eggUrl, eggDescription, steamAppId, steamStoreUrl, steamDbUrl,
+  anonymousLogin, minecraftType, javaVersion, minecraftVersion, ports,
+  minRam, minCpu, minDisk, recommendedSettings, customSections, links,
+  enabledNotes, noteTexts, authorName, authorGithub, donationUrl, license,
+  customLicense, coAuthors, isMarkdownView
+], () => {
+  saveSession()
+}, { deep: true })
+
+// Load session on mount
+onMounted(() => {
+  loadSession()
+})
+
 // Navigation
 function nextStep() {
   if (currentStep.value === 1 && !gameType.value) {
@@ -184,19 +295,35 @@ function nextStep() {
   }
   if (currentStep.value < totalSteps) {
     currentStep.value++
+    saveSession()
   }
 }
 
 function prevStep() {
   if (currentStep.value > 1) {
     currentStep.value--
+    saveSession()
   }
 }
 
 function goToStep(step) {
-  if (step <= currentStep.value || (step === currentStep.value + 1 && canProceed())) {
+  // Allow navigating to any step freely
+  if (step >= 1 && step <= totalSteps) {
     currentStep.value = step
+    saveSession()
   }
+}
+
+function getStepName(step) {
+  const stepNames = {
+    1: t.value.selectGameType,
+    2: t.value.basicInfo,
+    3: t.value.serverConfig,
+    4: t.value.additionalInfo,
+    5: t.value.authorInfo,
+    6: t.value.preview
+  }
+  return stepNames[step] || ''
 }
 
 function canProceed() {
@@ -594,6 +721,7 @@ function downloadMd() {
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
   showToast(t.value.downloadMdComplete, 'success')
+  clearSession()
 }
 
 // Download TXT
@@ -608,6 +736,7 @@ function downloadTxt() {
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
   showToast(t.value.downloadTxtComplete, 'success')
+  clearSession()
 }
 
 // Download Both
@@ -683,7 +812,18 @@ function showToast(message, type = 'success') {
       </div>
     </div>
     <div class="step-indicator">
-      {{ t.step }} {{ currentStep }} {{ t.of }} {{ totalSteps }}
+      <div class="step-dots">
+        <button 
+          v-for="step in totalSteps" 
+          :key="step"
+          :class="['step-dot', { active: currentStep === step, completed: step < currentStep }]"
+          @click="goToStep(step)"
+          :title="getStepName(step)"
+        >
+          {{ step }}
+        </button>
+      </div>
+      <div class="step-text">{{ t.step }} {{ currentStep }} {{ t.of }} {{ totalSteps }}: {{ getStepName(currentStep) }}</div>
     </div>
 
     <div class="wizard-layout">
