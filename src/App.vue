@@ -529,34 +529,6 @@ function downloadBoth() {
   }, 500)
 }
 
-// Reset / Start Over
-function startOver() {
-  currentStep.value = 1
-  gameType.value = ''
-  eggName.value = ''
-  eggUrl.value = ''
-  eggDescription.value = ''
-  steamAppId.value = ''
-  steamStoreUrl.value = ''
-  steamDbUrl.value = ''
-  anonymousLogin.value = true
-  minecraftType.value = 'paper'
-  javaVersion.value = ''
-  minecraftVersion.value = ''
-  portsDescription.value = ''
-  portWarning.value = ''
-  ports.value = [{ id: 1, name: 'Game', value: '27015' }]
-  minRam.value = ''
-  minCpu.value = ''
-  minDisk.value = ''
-  recommendedSettings.value = ''
-  customSections.value = []
-  links.value = [{ id: 1, text: '', url: '' }]
-  enabledNotes.value = { important: false, note: false, tip: false, warning: false }
-  noteTexts.value = { important: '', note: '', tip: '', warning: '' }
-  showToast(t.value.formReset, 'success')
-}
-
 // Toast
 function showToast(message, type = 'success') {
   const id = Date.now()
@@ -894,9 +866,6 @@ function showToast(message, type = 'success') {
       <div class="wizard-nav">
         <button v-if="currentStep > 1" class="btn-secondary" @click="prevStep">
           ← {{ t.back }}
-        </button>
-        <button v-if="currentStep === 1" class="btn-secondary" @click="startOver">
-          {{ t.startOver }}
         </button>
         <div class="nav-spacer"></div>
         <button v-if="currentStep < totalSteps" class="btn-primary" @click="nextStep">

@@ -10,7 +10,6 @@ export const translations = {
     next: 'Next',
     back: 'Back',
     finish: 'Finish & Download',
-    startOver: 'Start Over',
     
     // Step 1: Game Type
     selectGameType: '🎮 Select Game Type',
@@ -145,7 +144,6 @@ export const translations = {
     downloadMdComplete: 'README.md downloaded!',
     downloadTxtComplete: 'README.txt downloaded!',
     downloadBothComplete: 'Both files downloaded!',
-    formReset: 'Form reset',
     minOnePort: 'At least one port is required',
     pleaseSelectType: 'Please select a game type',
     pleaseEnterName: 'Please enter an egg name',
@@ -169,7 +167,6 @@ export const translations = {
     next: 'Weiter',
     back: 'Zurück',
     finish: 'Fertig & Download',
-    startOver: 'Neu starten',
     
     // Step 1: Game Type
     selectGameType: '🎮 Spieltyp auswählen',
@@ -304,7 +301,6 @@ export const translations = {
     downloadMdComplete: 'README.md heruntergeladen!',
     downloadTxtComplete: 'README.txt heruntergeladen!',
     downloadBothComplete: 'Beide Dateien heruntergeladen!',
-    formReset: 'Formular zurückgesetzt',
     minOnePort: 'Mindestens ein Port ist erforderlich',
     pleaseSelectType: 'Bitte wähle einen Spieltyp',
     pleaseEnterName: 'Bitte gib einen Egg-Namen ein',
