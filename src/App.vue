@@ -745,19 +745,17 @@ function showToast(message, type = 'success') {
         <div class="form-section">
           <h3>{{ t.recommendedSettings }}</h3>
           
-          <div class="form-row three-col">
-            <div class="form-group">
-              <label>{{ t.minRam }}</label>
-              <input type="text" v-model="minRam" :placeholder="t.minRamPlaceholder">
-            </div>
-            <div class="form-group">
-              <label>{{ t.minCpu }}</label>
-              <input type="text" v-model="minCpu" :placeholder="t.minCpuPlaceholder">
-            </div>
-            <div class="form-group">
-              <label>{{ t.minDisk }}</label>
-              <input type="text" v-model="minDisk" :placeholder="t.minDiskPlaceholder">
-            </div>
+          <div class="form-group">
+            <label>{{ t.minRam }}</label>
+            <input type="text" v-model="minRam" :placeholder="t.minRamPlaceholder">
+          </div>
+          <div class="form-group">
+            <label>{{ t.minCpu }}</label>
+            <input type="text" v-model="minCpu" :placeholder="t.minCpuPlaceholder">
+          </div>
+          <div class="form-group">
+            <label>{{ t.minDisk }}</label>
+            <input type="text" v-model="minDisk" :placeholder="t.minDiskPlaceholder">
           </div>
           
           <div class="form-group">
