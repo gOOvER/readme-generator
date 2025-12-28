@@ -279,6 +279,7 @@ const generatedMarkdown = computed(() => {
   }
 
   // Description
+  md += `## Description\n\n`
   md += `${eggDescription.value || 'Description of the egg...'}\n\n`
 
   // Steam Badges
@@ -428,6 +429,7 @@ const generatedText = computed(() => {
   txt += `${'='.repeat((eggName.value || 'Egg Name').length)}\n\n`
 
   // Description
+  txt += `Description\n-----------\n`
   txt += `${eggDescription.value || 'Description of the egg...'}\n\n`
 
   // Steam info
