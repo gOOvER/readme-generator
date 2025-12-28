@@ -773,31 +773,26 @@ function showToast(message, type = 'success') {
   <div class="container">
     <header>
       <div class="header-top">
-        <a href="https://donate.goover.dev" target="_blank" rel="noopener noreferrer" class="btn-donate" title="Support this project">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
-          <span>Donate</span>
-        </a>
-        <button class="btn-lang" @click="toggleLanguage" :title="currentLang === 'en' ? 'Switch to German' : 'Zu Englisch wechseln'">
-          <!-- Aktuelle Sprache -->
-          <span class="current-lang">
-            <svg v-if="currentLang === 'en'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
-              <clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
-              <clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
-              <g clip-path="url(#s)">
-                <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
-                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
-                <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/>
-                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
-                <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
-              </g>
-            </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="flag-icon">
-              <rect width="5" height="3" fill="#FFCE00"/>
-              <rect width="5" height="2" fill="#D00"/>
-              <rect width="5" height="1" fill="#000"/>
-            </svg>
+        <div class="header-actions">
+          <button class="btn-lang" @click="toggleLanguage" :title="currentLang === 'en' ? 'Switch to German' : 'Zu Englisch wechseln'">
+            <!-- Aktuelle Sprache -->
+            <span class="current-lang">
+              <svg v-if="currentLang === 'en'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
+                <clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
+                <clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
+                <g clip-path="url(#s)">
+                  <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+                  <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+                  <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/>
+                  <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+                  <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+                </g>
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="flag-icon">
+                <rect width="5" height="3" fill="#FFCE00"/>
+                <rect width="5" height="2" fill="#D00"/>
+                <rect width="5" height="1" fill="#000"/>
+              </svg>
             <span class="lang-code">{{ currentLang.toUpperCase() }}</span>
           </span>
           <!-- Pfeil -->
@@ -805,6 +800,13 @@ function showToast(message, type = 'success') {
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </button>
+        <a href="https://donate.goover.dev" target="_blank" rel="noopener noreferrer" class="btn-donate" title="Support this project">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span>Donate</span>
+        </a>
+        </div>
       </div>
       <div class="logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
