@@ -531,10 +531,12 @@ const generatedMarkdown = computed(() => {
     }
   }
 
-  // Co-Authors
+  // Co-Authors (always show for later editing)
+  md += `### Co-Authors\n\n`
   if (coAuthors.value) {
-    md += `### Co-Authors\n\n`
     md += `${coAuthors.value}\n\n`
+  } else {
+    md += `<!-- Add co-authors here -->\n\n`
   }
 
   // License
@@ -646,10 +648,12 @@ const generatedText = computed(() => {
     txt += `\n`
   }
 
-  // Co-Authors
+  // Co-Authors (always show for later editing)
+  txt += `Co-Authors\n----------\n`
   if (coAuthors.value) {
-    txt += `Co-Authors\n----------\n`
     txt += `${coAuthors.value}\n\n`
+  } else {
+    txt += `(Add co-authors here)\n\n`
   }
 
   // License
