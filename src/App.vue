@@ -142,18 +142,18 @@ const authorGithub = ref('')
 const donationUrl = ref('')
 const license = ref('MIT')
 const licenses = [
-  { value: 'MIT', name: 'MIT License' },
-  { value: 'GPL-3.0', name: 'GNU GPL v3' },
-  { value: 'AGPL-3.0', name: 'GNU AGPL v3' },
-  { value: 'Apache-2.0', name: 'Apache License 2.0' },
-  { value: 'BSD-3-Clause', name: 'BSD 3-Clause' },
-  { value: 'BSD-2-Clause', name: 'BSD 2-Clause' },
-  { value: 'LGPL-3.0', name: 'GNU LGPL v3' },
-  { value: 'MPL-2.0', name: 'Mozilla Public License 2.0' },
-  { value: 'ISC', name: 'ISC License' },
-  { value: 'Unlicense', name: 'The Unlicense' },
-  { value: 'CC0-1.0', name: 'CC0 1.0 Universal' },
-  { value: 'custom', name: 'Custom / Other' }
+  { value: 'MIT', name: 'MIT License', url: 'https://opensource.org/licenses/MIT' },
+  { value: 'GPL-3.0', name: 'GNU GPL v3', url: 'https://www.gnu.org/licenses/gpl-3.0.html' },
+  { value: 'AGPL-3.0', name: 'GNU AGPL v3', url: 'https://www.gnu.org/licenses/agpl-3.0.html' },
+  { value: 'Apache-2.0', name: 'Apache License 2.0', url: 'https://www.apache.org/licenses/LICENSE-2.0' },
+  { value: 'BSD-3-Clause', name: 'BSD 3-Clause', url: 'https://opensource.org/licenses/BSD-3-Clause' },
+  { value: 'BSD-2-Clause', name: 'BSD 2-Clause', url: 'https://opensource.org/licenses/BSD-2-Clause' },
+  { value: 'LGPL-3.0', name: 'GNU LGPL v3', url: 'https://www.gnu.org/licenses/lgpl-3.0.html' },
+  { value: 'MPL-2.0', name: 'Mozilla Public License 2.0', url: 'https://www.mozilla.org/en-US/MPL/2.0/' },
+  { value: 'ISC', name: 'ISC License', url: 'https://opensource.org/licenses/ISC' },
+  { value: 'Unlicense', name: 'The Unlicense', url: 'https://unlicense.org/' },
+  { value: 'CC0-1.0', name: 'CC0 1.0 Universal', url: 'https://creativecommons.org/publicdomain/zero/1.0/' },
+  { value: 'custom', name: 'Custom / Other', url: '' }
 ]
 const customLicense = ref('')
 const coAuthors = ref('')
@@ -428,7 +428,6 @@ const generatedMarkdown = computed(() => {
     // Steam Login Info
     if (steamAppId.value) {
       md += `## Steam\n\n`
-      md += `- **App ID:** ${steamAppId.value}\n`
       md += `- **Anonymous Login:** ${anonymousLogin.value ? '✅ Yes' : '❌ No'}\n\n`
     }
   }
@@ -541,9 +540,14 @@ const generatedMarkdown = computed(() => {
 
   // License
   const licenseValue = license.value === 'custom' ? customLicense.value : license.value
+  const licenseObj = licenses.find(l => l.value === license.value)
   if (licenseValue) {
     md += `## License\n\n`
-    md += `This project is licensed under the **${licenseValue}** license.\n`
+    if (licenseObj && licenseObj.url) {
+      md += `This project is licensed under the [**${licenseValue}**](${licenseObj.url}) license.\n`
+    } else {
+      md += `This project is licensed under the **${licenseValue}** license.\n`
+    }
   }
 
   return md
@@ -564,7 +568,6 @@ const generatedText = computed(() => {
   // Steam info
   if (gameType.value === 'steam' && steamAppId.value) {
     txt += `Steam\n-----\n`
-    txt += `App ID: ${steamAppId.value}\n`
     txt += `Anonymous Login: ${anonymousLogin.value ? 'Yes' : 'No'}\n`
     if (steamStoreUrl.value) txt += `Store: ${steamStoreUrl.value}\n`
     if (steamDbUrl.value) txt += `SteamDB: ${steamDbUrl.value}\n`
@@ -658,9 +661,13 @@ const generatedText = computed(() => {
 
   // License
   const licenseValue = license.value === 'custom' ? customLicense.value : license.value
+  const licenseObjTxt = licenses.find(l => l.value === license.value)
   if (licenseValue) {
     txt += `License\n-------\n`
     txt += `This project is licensed under the ${licenseValue} license.\n`
+    if (licenseObjTxt && licenseObjTxt.url) {
+      txt += `More info: ${licenseObjTxt.url}\n`
+    }
   }
 
   return txt
