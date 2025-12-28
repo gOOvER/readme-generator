@@ -6,6 +6,12 @@ import { marked } from 'marked'
 const eggName = ref('')
 const eggUrl = ref('')
 const eggDescription = ref('')
+
+// Steam
+const isSteamGame = ref(false)
+const steamStoreUrl = ref('')
+const steamDbUrl = ref('')
+
 const portsDescription = ref('')
 const portWarning = ref('')
 const minRam = ref('')
@@ -97,7 +103,16 @@ const generatedMarkdown = computed(() => {
 
   // Description
   md += `${eggDescription.value || 'Beschreibung des Eggs...'}\n\n`
-
+  // Steam Links
+  if (isSteamGame.value && (steamStoreUrl.value || steamDbUrl.value)) {
+    md += `\n\n`
+    if (steamStoreUrl.value) {
+      md += `[![Steam](https://img.shields.io/badge/Steam-Store-blue?logo=steam)](${steamStoreUrl.value}) `
+    }
+    if (steamDbUrl.value) {
+      md += `[![SteamDB](https://img.shields.io/badge/SteamDB-Info-black?logo=steam)](${steamDbUrl.value})`
+    }
+  }
   // Recommended Settings
   if (minRam.value || recommendedSettings.value) {
     md += `## Recommended server settings\n\n`
@@ -220,6 +235,9 @@ function resetForm() {
   eggName.value = ''
   eggUrl.value = ''
   eggDescription.value = ''
+  isSteamGame.value = false
+  steamStoreUrl.value = ''
+  steamDbUrl.value = ''
   portsDescription.value = ''
   portWarning.value = ''
   minRam.value = ''
@@ -268,6 +286,26 @@ function showToast(message, type = 'success') {
             <label>Egg Name *</label>
             <input type="text" v-model="eggName" placeholder="z.B. Minecraft">
           </div>
+          
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" v-model="isSteamGame">
+              <span class="checkmark"></span>
+              🎮 Steam Hosted Game
+            </label>
+          </div>
+          
+          <div v-if="isSteamGame" class="steam-fields">
+            <div class="form-group">
+              <label>Steam Store URL</label>
+              <input type="url" v-model="steamStoreUrl" placeholder="https://store.steampowered.com/app/...">
+            </div>
+            <div class="form-group">
+              <label>SteamDB URL</label>
+              <input type="url" v-model="steamDbUrl" placeholder="https://steamdb.info/app/...">
+            </div>
+          </div>
+          
           <div class="form-group">
             <label>Offizielle Website URL (optional)</label>
             <input type="url" v-model="eggUrl" placeholder="https://minecraft.net">
