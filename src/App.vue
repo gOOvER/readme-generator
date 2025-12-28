@@ -83,6 +83,17 @@ async function fetchSteamData(appId) {
 let steamDebounceTimer = null
 watch(steamAppId, (newVal) => {
   if (steamDebounceTimer) clearTimeout(steamDebounceTimer)
+  
+  // Immediately generate URLs when valid App ID is entered
+  if (newVal && /^\d+$/.test(newVal)) {
+    steamStoreUrl.value = `https://store.steampowered.com/app/${newVal}`
+    steamDbUrl.value = `https://steamdb.info/app/${newVal}`
+  } else {
+    steamStoreUrl.value = ''
+    steamDbUrl.value = ''
+  }
+  
+  // Debounced API fetch for name and description
   if (newVal && newVal.length >= 2) {
     steamDebounceTimer = setTimeout(() => {
       fetchSteamData(newVal)
