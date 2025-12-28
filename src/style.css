@@ -70,6 +70,19 @@ header {
   border-color: var(--primary-color);
 }
 
+.flag-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flag-icon {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
 .logo {
   display: flex;
   align-items: center;

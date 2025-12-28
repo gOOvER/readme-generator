@@ -593,7 +593,28 @@ function showToast(message, type = 'success') {
     <header>
       <div class="header-top">
         <button class="btn-lang" @click="toggleLanguage">
-          {{ currentLang === 'en' ? '🇩🇪 DE' : '🇬🇧 EN' }}
+          <span v-if="currentLang === 'en'" class="flag-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="flag-icon">
+              <rect width="5" height="3" fill="#000"/>
+              <rect width="5" height="2" fill="#D00"/>
+              <rect width="5" height="1" fill="#FFCE00"/>
+            </svg>
+            DE
+          </span>
+          <span v-else class="flag-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
+              <clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
+              <clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
+              <g clip-path="url(#s)">
+                <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+                <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/>
+                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+                <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+              </g>
+            </svg>
+            EN
+          </span>
         </button>
       </div>
       <div class="logo">
