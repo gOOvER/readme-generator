@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelican Eggs README Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/>
+                    <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"/>
+                </svg>
+                <h1>Pelican Eggs README Generator</h1>
+            </div>
+            <p class="subtitle">Generiere professionelle README-Dateien für deine Pelican Eggs</p>
+        </header>
+
+        <main>
+            <form id="readme-form">
+                <!-- Basic Information -->
+                <section class="form-section">
+                    <h2>📋 Basis-Informationen</h2>
+                    <div class="form-group">
+                        <label for="egg-name">Egg Name *</label>
+                        <input type="text" id="egg-name" placeholder="z.B. Minecraft" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="egg-url">Offizielle Website URL (optional)</label>
+                        <input type="url" id="egg-url" placeholder="https://minecraft.net">
+                    </div>
+                    <div class="form-group">
+                        <label for="egg-description">Beschreibung *</label>
+                        <textarea id="egg-description" rows="4" placeholder="Eine kurze Beschreibung des Spiels oder der Anwendung..." required></textarea>
+                    </div>
+                </section>
+
+                <!-- Server Ports -->
+                <section class="form-section">
+                    <h2>🔌 Server Ports</h2>
+                    <div class="form-group">
+                        <label for="ports-description">Port-Beschreibung (optional)</label>
+                        <input type="text" id="ports-description" placeholder="z.B. Server benötigt bis zu 4 Ports">
+                    </div>
+                    <div id="ports-container">
+                        <div class="port-row">
+                            <input type="text" class="port-name" placeholder="Port Name (z.B. Game)" value="Game">
+                            <input type="text" class="port-value" placeholder="Port (z.B. 25565)" value="25565">
+                            <button type="button" class="btn-remove" onclick="removePort(this)">✕</button>
+                        </div>
+                        <div class="port-row">
+                            <input type="text" class="port-name" placeholder="Port Name (z.B. Query)" value="Query">
+                            <input type="text" class="port-value" placeholder="Port (z.B. 27015)" value="27015">
+                            <button type="button" class="btn-remove" onclick="removePort(this)">✕</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addPort()">+ Port hinzufügen</button>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="port-warning">Port-Warnung (optional)</label>
+                        <textarea id="port-warning" rows="2" placeholder="z.B. Das Ändern des Game-Ports von 7777 führt dazu, dass der Server nicht erreichbar ist!"></textarea>
+                    </div>
+                </section>
+
+                <!-- Recommended Settings -->
+                <section class="form-section">
+                    <h2>⚙️ Empfohlene Server-Einstellungen</h2>
+                    <div class="form-group">
+                        <label for="min-ram">Minimum RAM (optional)</label>
+                        <input type="text" id="min-ram" placeholder="z.B. 4096M">
+                    </div>
+                    <div class="form-group">
+                        <label for="recommended-settings">Weitere Empfehlungen (optional)</label>
+                        <textarea id="recommended-settings" rows="4" placeholder="Weitere empfohlene Einstellungen für den Server..."></textarea>
+                    </div>
+                </section>
+
+                <!-- Additional Sections -->
+                <section class="form-section">
+                    <h2>📝 Zusätzliche Abschnitte</h2>
+                    <div id="custom-sections-container"></div>
+                    <button type="button" class="btn-add" onclick="addCustomSection()">+ Abschnitt hinzufügen</button>
+                </section>
+
+                <!-- Notes -->
+                <section class="form-section">
+                    <h2>📌 Hinweise</h2>
+                    <div class="form-group">
+                        <label>Hinweis-Typ auswählen</label>
+                        <div class="note-types">
+                            <label class="note-type">
+                                <input type="checkbox" id="note-important" value="important">
+                                <span class="note-badge important">⚠️ Important</span>
+                            </label>
+                            <label class="note-type">
+                                <input type="checkbox" id="note-note" value="note">
+                                <span class="note-badge note">📝 Note</span>
+                            </label>
+                            <label class="note-type">
+                                <input type="checkbox" id="note-tip" value="tip">
+                                <span class="note-badge tip">💡 Tip</span>
+                            </label>
+                            <label class="note-type">
+                                <input type="checkbox" id="note-warning" value="warning">
+                                <span class="note-badge warning">🚨 Warning</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="notes-container"></div>
+                </section>
+
+                <!-- Links -->
+                <section class="form-section">
+                    <h2>🔗 Zusätzliche Links</h2>
+                    <div id="links-container">
+                        <div class="link-row">
+                            <input type="text" class="link-text" placeholder="Link-Text (z.B. Wiki)">
+                            <input type="url" class="link-url" placeholder="URL">
+                            <button type="button" class="btn-remove" onclick="removeLink(this)">✕</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addLink()">+ Link hinzufügen</button>
+                </section>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="resetForm()">Zurücksetzen</button>
+                    <button type="button" class="btn-primary" onclick="generateReadme()">README Generieren</button>
+                </div>
+            </form>
+
+            <!-- Preview Section -->
+            <section class="preview-section">
+                <div class="preview-header">
+                    <h2>📄 Vorschau</h2>
+                    <div class="preview-actions">
+                        <button type="button" class="btn-icon" onclick="togglePreviewMode()" id="toggle-preview" title="Zwischen Markdown und Rendered wechseln">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-icon" onclick="copyToClipboard()" title="In Zwischenablage kopieren">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-icon" onclick="downloadReadme()" title="README herunterladen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" x2="12" y1="15" y2="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="preview-container">
+                    <div id="markdown-preview" class="preview-content active">
+                        <pre><code id="markdown-output">Fülle das Formular aus und klicke auf "README Generieren"</code></pre>
+                    </div>
+                    <div id="rendered-preview" class="preview-content">
+                        <div id="rendered-output"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Erstellt für die <a href="https://github.com/pelican-eggs" target="_blank">Pelican Eggs</a> Community</p>
+            <p class="version">Version 1.0.0</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
