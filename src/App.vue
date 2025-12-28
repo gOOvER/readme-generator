@@ -592,17 +592,10 @@ function showToast(message, type = 'success') {
   <div class="container">
     <header>
       <div class="header-top">
-        <button class="btn-lang" @click="toggleLanguage">
-          <span v-if="currentLang === 'en'" class="flag-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="flag-icon">
-              <rect width="5" height="3" fill="#000"/>
-              <rect width="5" height="2" fill="#D00"/>
-              <rect width="5" height="1" fill="#FFCE00"/>
-            </svg>
-            DE
-          </span>
-          <span v-else class="flag-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
+        <button class="btn-lang" @click="toggleLanguage" :title="currentLang === 'en' ? 'Switch to German' : 'Zu Englisch wechseln'">
+          <!-- Aktuelle Sprache -->
+          <span class="current-lang">
+            <svg v-if="currentLang === 'en'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
               <clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
               <clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
               <g clip-path="url(#s)">
@@ -613,8 +606,17 @@ function showToast(message, type = 'success') {
                 <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
               </g>
             </svg>
-            EN
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="flag-icon">
+              <rect width="5" height="3" fill="#000"/>
+              <rect width="5" height="2" fill="#D00"/>
+              <rect width="5" height="1" fill="#FFCE00"/>
+            </svg>
+            <span class="lang-code">{{ currentLang.toUpperCase() }}</span>
           </span>
+          <!-- Pfeil -->
+          <svg class="lang-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
         </button>
       </div>
       <div class="logo">

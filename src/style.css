@@ -56,13 +56,16 @@ header {
 .btn-lang {
   background: var(--surface);
   color: var(--text-primary);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn-lang:hover {
@@ -70,10 +73,23 @@ header {
   border-color: var(--primary-color);
 }
 
-.flag-btn {
+.current-lang {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.lang-code {
+  font-weight: 600;
+}
+
+.lang-arrow {
+  opacity: 0.6;
+  transition: transform 0.2s;
+}
+
+.btn-lang:hover .lang-arrow {
+  opacity: 1;
 }
 
 .flag-icon {
