@@ -143,6 +143,7 @@ const license = ref('MIT')
 const licenses = [
   { value: 'MIT', name: 'MIT License' },
   { value: 'GPL-3.0', name: 'GNU GPL v3' },
+  { value: 'AGPL-3.0', name: 'GNU AGPL v3' },
   { value: 'Apache-2.0', name: 'Apache License 2.0' },
   { value: 'BSD-3-Clause', name: 'BSD 3-Clause' },
   { value: 'BSD-2-Clause', name: 'BSD 2-Clause' },
@@ -154,6 +155,7 @@ const licenses = [
   { value: 'custom', name: 'Custom / Other' }
 ]
 const customLicense = ref('')
+const coAuthors = ref('')
 
 // Step 6: Preview
 const isMarkdownView = ref(true)
@@ -387,6 +389,8 @@ const generatedMarkdown = computed(() => {
   // Author Section
   if (authorName.value || authorGithub.value || donationUrl.value || license.value) {
     md += `## Author\n\n`
+    md += `> [!WARNING]\n`
+    md += `> The original author information must not be removed from this file.\n\n`
     if (authorName.value) {
       if (authorGithub.value) {
         md += `**Author:** [${authorName.value}](${authorGithub.value})\n\n`
@@ -397,6 +401,12 @@ const generatedMarkdown = computed(() => {
     if (donationUrl.value) {
       md += `[![Donate](https://img.shields.io/badge/Donate-Support-green)](${donationUrl.value})\n\n`
     }
+  }
+
+  // Co-Authors
+  if (coAuthors.value) {
+    md += `### Co-Authors\n\n`
+    md += `${coAuthors.value}\n\n`
   }
 
   // License
@@ -500,10 +510,17 @@ const generatedText = computed(() => {
   // Author Section
   if (authorName.value || authorGithub.value || donationUrl.value) {
     txt += `Author\n------\n`
+    txt += `[!] The original author information must not be removed from this file.\n\n`
     if (authorName.value) txt += `Author: ${authorName.value}\n`
     if (authorGithub.value) txt += `GitHub: ${authorGithub.value}\n`
     if (donationUrl.value) txt += `Donate: ${donationUrl.value}\n`
     txt += `\n`
+  }
+
+  // Co-Authors
+  if (coAuthors.value) {
+    txt += `Co-Authors\n----------\n`
+    txt += `${coAuthors.value}\n\n`
   }
 
   // License
@@ -932,6 +949,16 @@ function showToast(message, type = 'success') {
           <div v-if="license === 'custom'" class="form-group">
             <label>{{ t.customLicense }}</label>
             <input type="text" v-model="customLicense" :placeholder="t.customLicensePlaceholder">
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3>{{ t.coAuthorsSection }}</h3>
+          <p class="form-hint">{{ t.coAuthorsHint }}</p>
+          
+          <div class="form-group">
+            <label>{{ t.coAuthors }}</label>
+            <textarea v-model="coAuthors" rows="3" :placeholder="t.coAuthorsPlaceholder"></textarea>
           </div>
         </div>
       </section>

@@ -139,6 +139,10 @@ export const translations = {
     license: 'License',
     customLicense: 'Custom License Name',
     customLicensePlaceholder: 'e.g. Proprietary License',
+    coAuthorsSection: '👥 Co-Authors',
+    coAuthorsHint: 'Add contributors who have improved this egg. They will be listed separately from the original author.',
+    coAuthors: 'Co-Authors (optional)',
+    coAuthorsPlaceholder: '- [Contributor Name](https://github.com/username)\n- [Another Contributor](https://github.com/username2)',
     
     // Step 6: Preview & Download
     previewDownload: '📄 Preview & Download',
@@ -310,6 +314,10 @@ export const translations = {
     license: 'Lizenz',
     customLicense: 'Eigener Lizenzname',
     customLicensePlaceholder: 'z.B. Proprietary License',
+    coAuthorsSection: '👥 Co-Autoren',
+    coAuthorsHint: 'Füge Mitwirkende hinzu, die dieses Egg verbessert haben. Sie werden separat vom ursprünglichen Autor aufgelistet.',
+    coAuthors: 'Co-Autoren (optional)',
+    coAuthorsPlaceholder: '- [Mitwirkender Name](https://github.com/username)\n- [Weiterer Mitwirkender](https://github.com/username2)',
     
     // Step 6: Preview & Download
     previewDownload: '📄 Vorschau & Download',
