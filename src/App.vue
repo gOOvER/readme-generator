@@ -646,6 +646,23 @@ function showToast(message, type = 'success') {
       <section v-if="currentStep === 2" class="wizard-step">
         <h2>{{ t.basicInfo }}</h2>
         
+        <!-- Steam App ID first for auto-fetch -->
+        <div v-if="gameType === 'steam' || gameType === 'sourceEngine'" class="form-section steam-id-section">
+          <h3>{{ t.steamInfo }}</h3>
+          
+          <div class="form-group">
+            <label>{{ t.steamAppId }}</label>
+            <div class="input-with-status">
+              <input type="text" v-model="steamAppId" :placeholder="t.steamAppIdPlaceholder" :class="{ loading: steamLoading }">
+              <span v-if="steamLoading" class="input-status loading">⏳</span>
+              <span v-else-if="steamError" class="input-status error" :title="steamError">❌</span>
+              <span v-else-if="steamStoreUrl && steamAppId" class="input-status success">✅</span>
+            </div>
+            <small v-if="steamLoading" class="status-text">{{ t.steamLoading }}</small>
+            <small v-else-if="steamError" class="status-text error">{{ steamError }}</small>
+          </div>
+        </div>
+        
         <div class="form-section">
           <div class="form-group">
             <label>{{ t.eggName }}</label>
@@ -663,21 +680,9 @@ function showToast(message, type = 'success') {
           </div>
         </div>
 
-        <!-- Steam specific fields -->
+        <!-- Steam additional fields -->
         <div v-if="gameType === 'steam' || gameType === 'sourceEngine'" class="form-section">
-          <h3>{{ t.steamInfo }}</h3>
-          
-          <div class="form-group">
-            <label>{{ t.steamAppId }}</label>
-            <div class="input-with-status">
-              <input type="text" v-model="steamAppId" :placeholder="t.steamAppIdPlaceholder" :class="{ loading: steamLoading }">
-              <span v-if="steamLoading" class="input-status loading">⏳</span>
-              <span v-else-if="steamError" class="input-status error" :title="steamError">❌</span>
-              <span v-else-if="steamStoreUrl && steamAppId" class="input-status success">✅</span>
-            </div>
-            <small v-if="steamLoading" class="status-text">{{ t.steamLoading }}</small>
-            <small v-else-if="steamError" class="status-text error">{{ steamError }}</small>
-          </div>
+          <h3>🔗 Steam URLs</h3>
           
           <div class="form-row">
             <div class="form-group">
