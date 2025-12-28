@@ -806,24 +806,11 @@ function showToast(message, type = 'success') {
         :key="step"
         :class="['progress-step', { active: step === currentStep, completed: step < currentStep }]"
         @click="goToStep(step)"
+        :title="getStepName(step)"
       >
         <div class="step-number">{{ step }}</div>
         <div class="step-line" v-if="step < totalSteps"></div>
       </div>
-    </div>
-    <div class="step-indicator">
-      <div class="step-dots">
-        <button 
-          v-for="step in totalSteps" 
-          :key="step"
-          :class="['step-dot', { active: currentStep === step, completed: step < currentStep }]"
-          @click="goToStep(step)"
-          :title="getStepName(step)"
-        >
-          {{ step }}
-        </button>
-      </div>
-      <div class="step-text">{{ t.step }} {{ currentStep }} {{ t.of }} {{ totalSteps }}: {{ getStepName(currentStep) }}</div>
     </div>
 
     <div class="wizard-layout">
