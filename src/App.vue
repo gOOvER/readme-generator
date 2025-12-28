@@ -251,7 +251,7 @@ const generatedMarkdown = computed(() => {
   }
 
   // Description
-  md += `${eggDescription.value || t.value.defaultDescription}\n\n`
+  md += `${eggDescription.value || 'Description of the egg...'}\n\n`
 
   // Steam Badges
   if (gameType.value === 'steam' || gameType.value === 'sourceEngine') {
@@ -377,7 +377,7 @@ const generatedText = computed(() => {
   txt += `${'='.repeat((eggName.value || 'Egg Name').length)}\n\n`
 
   // Description
-  txt += `${eggDescription.value || t.value.defaultDescription}\n\n`
+  txt += `${eggDescription.value || 'Description of the egg...'}\n\n`
 
   // Steam info
   if ((gameType.value === 'steam' || gameType.value === 'sourceEngine') && steamAppId.value) {
