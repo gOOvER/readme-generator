@@ -47,6 +47,29 @@ header {
   margin-bottom: 3rem;
 }
 
+.header-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.btn-lang {
+  background: var(--surface);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-lang:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary-color);
+}
+
 .logo {
   display: flex;
   align-items: center;

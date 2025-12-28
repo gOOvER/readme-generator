@@ -1,6 +1,15 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { marked } from 'marked'
+import { translations } from './i18n.js'
+
+// Language
+const currentLang = ref('en')
+const t = computed(() => translations[currentLang.value])
+
+function toggleLanguage() {
+  currentLang.value = currentLang.value === 'en' ? 'de' : 'en'
+}
 
 // Form Data
 const eggName = ref('')
@@ -64,7 +73,7 @@ function removePort(id) {
   if (ports.value.length > 1) {
     ports.value = ports.value.filter(p => p.id !== id)
   } else {
-    showToast('Mindestens ein Port ist erforderlich', 'error')
+    showToast(t.value.minOnePort, 'error')
   }
 }
 
@@ -102,7 +111,7 @@ const generatedMarkdown = computed(() => {
   }
 
   // Description
-  md += `${eggDescription.value || 'Beschreibung des Eggs...'}\n\n`
+  md += `${eggDescription.value || t.value.defaultDescription}\n\n`
   // Steam Links
   if (isSteamGame.value && (steamStoreUrl.value || steamDbUrl.value)) {
     md += `\n\n`
@@ -204,7 +213,7 @@ function togglePreview() {
 async function copyToClipboard() {
   try {
     await navigator.clipboard.writeText(generatedMarkdown.value)
-    showToast('README in die Zwischenablage kopiert!', 'success')
+    showToast(t.value.copiedToClipboard, 'success')
   } catch (err) {
     const textarea = document.createElement('textarea')
     textarea.value = generatedMarkdown.value
@@ -212,7 +221,7 @@ async function copyToClipboard() {
     textarea.select()
     document.execCommand('copy')
     document.body.removeChild(textarea)
-    showToast('README in die Zwischenablage kopiert!', 'success')
+    showToast(t.value.copiedToClipboard, 'success')
   }
 }
 
@@ -227,7 +236,7 @@ function downloadReadme() {
   a.click()
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
-  showToast('README.md wurde heruntergeladen!', 'success')
+  showToast(t.value.downloadComplete, 'success')
 }
 
 // Reset Form
@@ -250,7 +259,7 @@ function resetForm() {
   customSections.value = []
   enabledNotes.value = { important: false, note: false, tip: false, warning: false }
   noteTexts.value = { important: '', note: '', tip: '', warning: '' }
-  showToast('Formular zurückgesetzt', 'success')
+  showToast(t.value.formReset, 'success')
 }
 
 // Toast
@@ -266,14 +275,19 @@ function showToast(message, type = 'success') {
 <template>
   <div class="container">
     <header>
+      <div class="header-top">
+        <button class="btn-lang" @click="toggleLanguage">
+          {{ currentLang === 'en' ? '🇩🇪 DE' : '🇬🇧 EN' }}
+        </button>
+      </div>
       <div class="logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/>
           <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"/>
         </svg>
-        <h1>Pelican Eggs README Generator</h1>
+        <h1>{{ t.title }}</h1>
       </div>
-      <p class="subtitle">Generiere professionelle README-Dateien für deine Pelican Eggs</p>
+      <p class="subtitle">{{ t.subtitle }}</p>
     </header>
 
     <main>
@@ -281,91 +295,91 @@ function showToast(message, type = 'success') {
       <div class="form-container">
         <!-- Basic Info -->
         <section class="form-section">
-          <h2>📋 Basis-Informationen</h2>
+          <h2>{{ t.basicInfo }}</h2>
           <div class="form-group">
-            <label>Egg Name *</label>
-            <input type="text" v-model="eggName" placeholder="z.B. Minecraft">
+            <label>{{ t.eggName }}</label>
+            <input type="text" v-model="eggName" :placeholder="t.eggNamePlaceholder">
           </div>
           
           <div class="form-group checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" v-model="isSteamGame">
               <span class="checkmark"></span>
-              🎮 Steam Hosted Game
+              {{ t.steamHostedGame }}
             </label>
           </div>
           
           <div v-if="isSteamGame" class="steam-fields">
             <div class="form-group">
-              <label>Steam Store URL</label>
-              <input type="url" v-model="steamStoreUrl" placeholder="https://store.steampowered.com/app/...">
+              <label>{{ t.steamStoreUrl }}</label>
+              <input type="url" v-model="steamStoreUrl" :placeholder="t.steamStoreUrlPlaceholder">
             </div>
             <div class="form-group">
-              <label>SteamDB URL</label>
-              <input type="url" v-model="steamDbUrl" placeholder="https://steamdb.info/app/...">
+              <label>{{ t.steamDbUrl }}</label>
+              <input type="url" v-model="steamDbUrl" :placeholder="t.steamDbUrlPlaceholder">
             </div>
           </div>
           
           <div class="form-group">
-            <label>Offizielle Website URL (optional)</label>
-            <input type="url" v-model="eggUrl" placeholder="https://minecraft.net">
+            <label>{{ t.websiteUrl }}</label>
+            <input type="url" v-model="eggUrl" :placeholder="t.websiteUrlPlaceholder">
           </div>
           <div class="form-group">
-            <label>Beschreibung *</label>
-            <textarea v-model="eggDescription" rows="4" placeholder="Eine kurze Beschreibung des Spiels oder der Anwendung..."></textarea>
+            <label>{{ t.description }}</label>
+            <textarea v-model="eggDescription" rows="4" :placeholder="t.descriptionPlaceholder"></textarea>
           </div>
         </section>
 
         <!-- Server Ports -->
         <section class="form-section">
-          <h2>🔌 Server Ports</h2>
+          <h2>{{ t.serverPorts }}</h2>
           <div class="form-group">
-            <label>Port-Beschreibung (optional)</label>
-            <input type="text" v-model="portsDescription" placeholder="z.B. Server benötigt bis zu 4 Ports">
+            <label>{{ t.portDescription }}</label>
+            <input type="text" v-model="portsDescription" :placeholder="t.portDescriptionPlaceholder">
           </div>
           
           <div class="dynamic-row" v-for="port in ports" :key="port.id">
-            <input type="text" v-model="port.name" placeholder="Port Name (z.B. Game)">
-            <input type="text" v-model="port.value" placeholder="Port (z.B. 25565)">
+            <input type="text" v-model="port.name" :placeholder="t.portNamePlaceholder">
+            <input type="text" v-model="port.value" :placeholder="t.portValuePlaceholder">
             <button class="btn-remove" @click="removePort(port.id)">✕</button>
           </div>
-          <button class="btn-add" @click="addPort">+ Port hinzufügen</button>
+          <button class="btn-add" @click="addPort">{{ t.addPort }}</button>
           
           <div class="form-group" style="margin-top: 1rem;">
-            <label>Port-Warnung (optional)</label>
-            <textarea v-model="portWarning" rows="2" placeholder="z.B. Das Ändern des Game-Ports von 7777 führt dazu, dass der Server nicht erreichbar ist!"></textarea>
+            <label>{{ t.portWarning }}</label>
+            <textarea v-model="portWarning" rows="2" :placeholder="t.portWarningPlaceholder"></textarea>
           </div>
         </section>
 
         <!-- Recommended Settings -->
         <section class="form-section">
-          <h2>⚙️ Empfohlene Server-Einstellungen</h2>
+          <h2>{{ t.recommendedSettings }}</h2>
           <div class="form-group">
-            <label>Minimum RAM (optional)</label>
-            <input type="text" v-model="minRam" placeholder="z.B. 4096M">
+            <label>{{ t.minRam }}</label>
+            <input type="text" v-model="minRam" :placeholder="t.minRamPlaceholder">
           </div>
           <div class="form-group">
-            <label>Weitere Empfehlungen (optional)</label>
-            <textarea v-model="recommendedSettings" rows="4" placeholder="Weitere empfohlene Einstellungen..."></textarea>
+            <label>{{ t.additionalRecommendations }}</label>
+            <textarea v-model="recommendedSettings" rows="4" :placeholder="t.additionalRecommendationsPlaceholder"></textarea>
           </div>
         </section>
 
         <!-- Custom Sections -->
         <section class="form-section">
-          <h2>📝 Zusätzliche Abschnitte</h2>
+          <h2>{{ t.customSections }}</h2>
           <div v-for="section in customSections" :key="section.id" class="custom-section-item">
             <div class="custom-section-header">
-              <input type="text" v-model="section.title" placeholder="Abschnittstitel">
+              <input type="text" v-model="section.title" :placeholder="t.sectionTitlePlaceholder">
               <button class="btn-remove" @click="removeSection(section.id)">✕</button>
             </div>
-            <textarea v-model="section.content" rows="3" placeholder="Inhalt des Abschnitts..."></textarea>
+            <textarea v-model="section.content" rows="3" :placeholder="t.sectionContentPlaceholder"></textarea>
           </div>
-          <button class="btn-add" @click="addSection">+ Abschnitt hinzufügen</button>
+          <button class="btn-add" @click="addSection">{{ t.addSection }}</button>
         </section>
 
         <!-- Notes -->
         <section class="form-section">
-          <h2>📌 Hinweise</h2>
+          <h2>{{ t.notes }}</h2>
           <div class="note-types">
             <label class="note-type">
               <input type="checkbox" v-model="enabledNotes.important">
@@ -386,60 +400,60 @@ function showToast(message, type = 'success') {
           </div>
           
           <div v-if="enabledNotes.important" class="note-input">
-            <label>⚠️ Important Hinweis</label>
-            <textarea v-model="noteTexts.important" rows="2" placeholder="Important Hinweistext..."></textarea>
+            <label>{{ t.importantNote }}</label>
+            <textarea v-model="noteTexts.important" rows="2" :placeholder="t.notePlaceholder"></textarea>
           </div>
           <div v-if="enabledNotes.note" class="note-input">
-            <label>📝 Note Hinweis</label>
-            <textarea v-model="noteTexts.note" rows="2" placeholder="Note Hinweistext..."></textarea>
+            <label>{{ t.noteNote }}</label>
+            <textarea v-model="noteTexts.note" rows="2" :placeholder="t.notePlaceholder"></textarea>
           </div>
           <div v-if="enabledNotes.tip" class="note-input">
-            <label>💡 Tip Hinweis</label>
-            <textarea v-model="noteTexts.tip" rows="2" placeholder="Tip Hinweistext..."></textarea>
+            <label>{{ t.tipNote }}</label>
+            <textarea v-model="noteTexts.tip" rows="2" :placeholder="t.notePlaceholder"></textarea>
           </div>
           <div v-if="enabledNotes.warning" class="note-input">
-            <label>🚨 Warning Hinweis</label>
-            <textarea v-model="noteTexts.warning" rows="2" placeholder="Warning Hinweistext..."></textarea>
+            <label>{{ t.warningNote }}</label>
+            <textarea v-model="noteTexts.warning" rows="2" :placeholder="t.notePlaceholder"></textarea>
           </div>
         </section>
 
         <!-- Links -->
         <section class="form-section">
-          <h2>🔗 Zusätzliche Links</h2>
+          <h2>{{ t.additionalLinks }}</h2>
           <div class="dynamic-row" v-for="link in links" :key="link.id">
-            <input type="text" v-model="link.text" placeholder="Link-Text (z.B. Wiki)">
-            <input type="url" v-model="link.url" placeholder="URL">
+            <input type="text" v-model="link.text" :placeholder="t.linkTextPlaceholder">
+            <input type="url" v-model="link.url" :placeholder="t.linkUrlPlaceholder">
             <button class="btn-remove" @click="removeLink(link.id)">✕</button>
           </div>
-          <button class="btn-add" @click="addLink">+ Link hinzufügen</button>
+          <button class="btn-add" @click="addLink">{{ t.addLink }}</button>
         </section>
 
         <!-- Actions -->
         <div class="form-actions">
-          <button class="btn-secondary" @click="resetForm">Zurücksetzen</button>
-          <button class="btn-primary" @click="copyToClipboard">📋 Kopieren</button>
-          <button class="btn-primary" @click="downloadReadme">💾 Download</button>
+          <button class="btn-secondary" @click="resetForm">{{ t.reset }}</button>
+          <button class="btn-primary" @click="copyToClipboard">{{ t.copy }}</button>
+          <button class="btn-primary" @click="downloadReadme">{{ t.download }}</button>
         </div>
       </div>
 
       <!-- Preview -->
       <section class="preview-section">
         <div class="preview-header">
-          <h2>📄 Vorschau</h2>
+          <h2>{{ t.preview }}</h2>
           <div class="preview-actions">
-            <button class="btn-icon" @click="togglePreview" :title="isMarkdownView ? 'Gerendert anzeigen' : 'Markdown anzeigen'">
+            <button class="btn-icon" @click="togglePreview" :title="isMarkdownView ? t.showRendered : t.showMarkdown">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
                 <circle cx="12" cy="12" r="3"/>
               </svg>
             </button>
-            <button class="btn-icon" @click="copyToClipboard" title="Kopieren">
+            <button class="btn-icon" @click="copyToClipboard" :title="t.copy">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect width="14" height="14" x="8" y="8" rx="2"/>
                 <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
               </svg>
             </button>
-            <button class="btn-icon" @click="downloadReadme" title="Download">
+            <button class="btn-icon" @click="downloadReadme" :title="t.download">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                 <polyline points="7 10 12 15 17 10"/>
@@ -458,8 +472,8 @@ function showToast(message, type = 'success') {
     </main>
 
     <footer>
-      <p>Erstellt für die <a href="https://github.com/pelican-eggs" target="_blank">Pelican Eggs</a> Community</p>
-      <p class="version">Version 2.0.0 • Vue 3 + Vite</p>
+      <p>{{ t.createdFor }} <a href="https://github.com/pelican-eggs" target="_blank">Pelican Eggs</a> {{ t.community }}</p>
+      <p class="version">Version 2.1.0 • Vue 3 + Vite</p>
     </footer>
 
     <!-- Toast Container -->
