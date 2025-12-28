@@ -390,7 +390,7 @@ const generatedMarkdown = computed(() => {
   if (authorName.value || authorGithub.value || donationUrl.value || license.value) {
     md += `## Author\n\n`
     md += `> [!WARNING]\n`
-    md += `> The original author information must not be removed from this file.\n\n`
+    md += `> Do not remove author credits.\n\n`
     if (authorName.value) {
       if (authorGithub.value) {
         md += `**Author:** [${authorName.value}](${authorGithub.value})\n\n`
@@ -510,7 +510,7 @@ const generatedText = computed(() => {
   // Author Section
   if (authorName.value || authorGithub.value || donationUrl.value) {
     txt += `Author\n------\n`
-    txt += `[!] The original author information must not be removed from this file.\n\n`
+    txt += `[!] Do not remove author credits.\n\n`
     if (authorName.value) txt += `Author: ${authorName.value}\n`
     if (authorGithub.value) txt += `GitHub: ${authorGithub.value}\n`
     if (donationUrl.value) txt += `Donate: ${donationUrl.value}\n`
