@@ -97,6 +97,11 @@ header {
 }
 
 /* Main Layout */
+.wizard-main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -108,6 +113,251 @@ main {
   main {
     grid-template-columns: 1fr;
   }
+}
+
+/* Wizard Progress */
+.wizard-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 0.5rem;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-number {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.progress-step.completed .step-number {
+  background: var(--success-color);
+  border-color: var(--success-color);
+  color: white;
+}
+
+.step-line {
+  width: 60px;
+  height: 2px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.progress-step.completed .step-line {
+  background: var(--success-color);
+}
+
+.step-indicator {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+/* Wizard Steps */
+.wizard-step {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.wizard-step h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* Game Type Grid */
+.game-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.game-type-card {
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.game-type-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.game-type-card.selected {
+  border-color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.game-type-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.game-type-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.game-type-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Form Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-row.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 600px) {
+  .form-row,
+  .form-row.three-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form Section inside wizard */
+.wizard-step .form-section {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.wizard-step .form-section:first-of-type {
+  margin-top: 0;
+}
+
+.wizard-step .form-section h3 {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Wizard Navigation */
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.wizard-nav .btn-primary.finish {
+  background: var(--success-color);
+}
+
+.wizard-nav .btn-primary.finish:hover {
+  background: #16a34a;
+}
+
+/* Download Buttons */
+.download-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.btn-download {
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.btn-download.md {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-download.md:hover {
+  background: var(--primary-hover);
+}
+
+.btn-download.txt {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-download.txt:hover {
+  background: var(--surface-hover);
+}
+
+.btn-download.both {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-download.both:hover {
+  background: #16a34a;
+}
+
+/* Preview Step */
+.preview-step .preview-section {
+  position: static;
+  max-height: 500px;
+}
+
+.preview-step .preview-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Select styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
 }
 
 /* Form */
