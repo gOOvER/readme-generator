@@ -3,8 +3,13 @@ import { ref, computed } from 'vue'
 import { marked } from 'marked'
 import { translations } from './i18n.js'
 
-// Language
-const currentLang = ref('en')
+// Language - detect browser language, fallback to English
+function getBrowserLanguage() {
+  const browserLang = navigator.language?.split('-')[0] || 'en'
+  return translations[browserLang] ? browserLang : 'en'
+}
+
+const currentLang = ref(getBrowserLanguage())
 const t = computed(() => translations[currentLang.value])
 
 function toggleLanguage() {
